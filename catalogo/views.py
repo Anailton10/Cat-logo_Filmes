@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 
-def adm(request):
-    return HttpResponse('OLA')
-
+def cadastro_admin(request):
+    if request.method == 'GET':
+        return render(request, 'cadastro.html')
+    elif request.method == 'POST':

@@ -4,6 +4,7 @@ from .models import Adm
 from django.urls import reverse
 from hashlib import sha256
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def cadastro_admin(request):
@@ -26,20 +27,28 @@ def cadastro_admin(request):
                            email=email,
                            senha=senha)
         novo_usuario.save()
-        usuario = authenticate(request, username=email, password=senha)
-        if usuario:
-            login(request, usuario)
-    return HttpResponse('Cadastrado')
+    return redirect(reverse('login_admin'))
 
 
 def login_admin(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            # TODO: redirecionar para arena de add os filmes
-            return render(request, 'teste.html')
-    return render(request, 'login.html')
+    if request.method == "GET":
+        return render(request, 'login.html')
+    elif request.method == "POST":
+        nome = request.POST.get('nome')
+        senha = request.POST.get('senha')
+        usuario = Adm.objects.filter(nome=nome, senha=senha)
+        if usuario:
+            login(request, usuario)
+            return redirect(reverse('filmes'))
+        else:
+            return HttpResponse('Usuario ou senha invalido')
 
 
 def logout_admin(request):
     logout(request)
     return redirect(reverse('login_admin'))
+
+
+@login_required
+def filmes(request):
+    return render(request, 'teste.html')

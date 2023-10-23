@@ -9,3 +9,5 @@ class Adm(models.Model):
 
     def __str__(self):
         return self.nome
+
+

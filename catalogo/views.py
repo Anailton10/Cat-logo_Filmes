@@ -27,28 +27,20 @@ def cadastro_admin(request):
                            email=email,
                            senha=senha)
         novo_usuario.save()
-    return redirect(reverse('login_admin'))
+        usuario = authenticate(request, username=email, password=senha)
+        if usuario:
+            login(request, usuario)
+    return HttpResponse('Cadastrado')
 
 
 def login_admin(request):
-    if request.method == "GET":
-        return render(request, 'login.html')
-    elif request.method == "POST":
-        nome = request.POST.get('nome')
-        senha = request.POST.get('senha')
-        usuario = Adm.objects.filter(nome=nome, senha=senha)
-        if usuario:
-            login(request, usuario)
-            return redirect(reverse('filmes'))
-        else:
-            return HttpResponse('Usuario ou senha invalido')
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            # TODO: redirecionar para arena de add os filmes
+            return render(request, 'teste.html')
+    return render(request, 'login.html')
 
 
 def logout_admin(request):
     logout(request)
     return redirect(reverse('login_admin'))
-
-
-@login_required
-def filmes(request):
-    return render(request, 'teste.html')

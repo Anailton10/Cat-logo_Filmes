@@ -3,8 +3,6 @@ from django.http import HttpResponse
 from .models import Adm
 from django.urls import reverse
 from hashlib import sha256
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 
 
 def cadastro_admin(request):
@@ -36,19 +34,17 @@ def login_admin(request):
     elif request.method == "POST":
         nome = request.POST.get('nome')
         senha = request.POST.get('senha')
-        usuario = Adm.objects.filter(nome=nome, senha=senha)
-        if usuario:
-            login(request, usuario)
-            return redirect(reverse('filmes'))
-        else:
-            return HttpResponse('Usuario ou senha invalido')
+        senha = sha256(senha.encode()).hexdigest()
+        adm = Adm.objects.filter(nome=nome).filter(senha=senha)
+        if len(adm) == 0:
+            return HttpResponse('Usuario não cadastrado.')
+        elif len(adm) > 0:
+            request.session['adm'] = adm[0].id
+            return redirect(reverse('adicionar_filmes'))
+
+# TODO: adicionar mensagens para melhor interação
 
 
 def logout_admin(request):
-    logout(request)
+    request.session.flush()
     return redirect(reverse('login_admin'))
-
-
-@login_required
-def filmes(request):
-    return render(request, 'teste.html')

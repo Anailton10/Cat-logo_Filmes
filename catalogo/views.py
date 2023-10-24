@@ -37,11 +37,11 @@ def login_admin(request):
         senha = request.POST.get('senha')
 
         if Adm.objects.filter(email=email).exists():
-            return HttpResponse('Usuario já existe')
-        usuario = authenticate(request, username=email, password=senha)
+            usuario = authenticate(request, username=email, password=senha)
 
         if usuario:
             login(request, usuario)
+            request.session["usuario"] = usuario[0].id
             return redirect(reverse('filmes'))
 
 

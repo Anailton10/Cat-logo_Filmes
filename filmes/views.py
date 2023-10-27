@@ -25,3 +25,8 @@ def adicionar_filmes(request):
         )
         filmes.save()
         
+
+def ver_filmes(request):
+    if request.method == "GET":
+        filmes = cf.objects.all()
+        return render(request, "ver_filmes.html",  {"filmes": filmes)

@@ -25,6 +25,9 @@ def adicionar_filmes(request):
                     capa=capa
                     )
         filmes.save()
+        return HttpResponse('Cadastrado')
+
+# TODO: Adicionar mensagens
 
 
 def ver_filmes(request):

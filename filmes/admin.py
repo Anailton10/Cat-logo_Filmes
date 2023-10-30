@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Cadastro_Filmes as cf
 
-# Register your models here.
+
+admin.site.register(cf)

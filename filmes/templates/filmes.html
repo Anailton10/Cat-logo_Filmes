@@ -5,6 +5,12 @@
 {% block 'conteudo' %}
 <div class="container mt-4">
   <h1>Adicionar Filme</h1>
+  {% if messages %}
+      <br>
+      {% for message in messages %}
+      <div class="alert {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+  {% endif %}
 
   <form action="{% url "adicionar_filmes" %}" method= "POST" enctype="multipart/form-data"> {% csrf_token %}
 

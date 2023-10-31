@@ -8,7 +8,6 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Capa</th>
         <th>Título</th>
         <th>Sinopse</th>
         <th>Duração</th>
@@ -18,11 +17,10 @@
     <tbody>
       {% for filme in filmes %}
         <tr>
-          <td><img src="{{ filme.capa.url }}" alt="Capa {{ filme.titulo }}" style="max-width: 100px;"></td>
           <td>{{ filme.titulo }}</td>
           <td>{{ filme.sinopse }}</td>
           <td>{{ filme.duracao }} minutos</td>
-          <td>{{ filme.autor }}</td>          
+          <td>{{ filme.autor }}</td>
         </tr>
       {% endfor %}
     </tbody>

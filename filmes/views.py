@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.http import HttpResponse
 from .models import Cadastro_Filmes as cf
+from django.contrib import messages
+from django.contrib.messages import constants
 
 
 def adicionar_filmes(request):
@@ -15,9 +18,12 @@ def adicionar_filmes(request):
         duracao = request.POST.get("duracao")
         autor = request.POST.get("autor")
         capa = request.FILES.get("capa")
-
-        # TODO: Adicionar validacoes
-
+        valid = (titulo, sinopse, duracao, autor, capa)
+        for v in valid:
+            if len(v.strip) == 0:
+                messages.add_message(
+                    request, constants.ERROR, 'Preencha todos os campos')
+                return redirect(reverse('adicionar_filmes'))
         filmes = cf(titulo=titulo,
                     sinopse=sinopse,
                     duracao=duracao,
@@ -25,9 +31,9 @@ def adicionar_filmes(request):
                     capa=capa
                     )
         filmes.save()
-        return HttpResponse('Cadastrado')
-
-# TODO: Adicionar mensagens
+        messages.add_message(
+            request, constants.SUCCESS, 'Filme cadastrado com sucesso')
+        return redirect(reverse('adicionar_filmes'))
 
 
 def ver_filmes(request):

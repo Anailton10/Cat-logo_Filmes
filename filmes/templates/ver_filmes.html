@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block 'titulo' %}Visualizar Capa do Filme{% endblock %}
+
+{% block 'conteudo' %}
+<style>
+  /* Estilos para as imagens do catálogo */
+  .catalog-image {
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 50px;
+    text-align: center;
+  }
+
+  .catalog-image img {
+    max-width: 400px;
+    max-height: 300px;
+  }
+</style>
+
+<div class="container mt-4">
+  <h1>Capa do Filme</h1>
+  <div class="text-center">
+    {% for filme in filmes %}
+      <div class="catalog-image">
+        <a href="@">
+          <img src="{{ filme.capa.url }}" alt="Capa do Filme">
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

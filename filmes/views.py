@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Cadastro_Filmes as cf
 
 
 def adicionar_filmes(request):
@@ -16,12 +17,20 @@ def adicionar_filmes(request):
         capa = request.FILES.get("capa")
 
         # TODO: Adicionar validacoes
-        
+
         filmes = cf(titulo=titulo,
-        sinopse=sinopse,
-        duracao=duracao,
-        autor=autor,
-        capa=capa
-        )
+                    sinopse=sinopse,
+                    duracao=duracao,
+                    autor=autor,
+                    capa=capa
+                    )
         filmes.save()
-        
+        return HttpResponse('Cadastrado')
+
+# TODO: Adicionar mensagens
+
+
+def ver_filmes(request):
+    if request.method == "GET":
+        filmes = cf.objects.all()
+        return render(request, "ver_filmes.html",  {"filmes": filmes})

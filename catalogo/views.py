@@ -24,9 +24,9 @@ def cadastro_admin(request):
                 messages.add_message(
                     request, constants.ERROR, 'Senhas não são iguais')
                 return redirect(reverse(cadastro_admin))
-            if len(senha) <= 6:
+            if len(senha) <= 5:
                 messages.add_message(
-                    request, constants.ERROR, 'Senha curta, informe uma senha com 7 digitos')
+                    request, constants.ERROR, 'Senha curta, informe uma senha com 6 digitos')
                 return redirect(reverse(cadastro_admin))
         senha = sha256(senha.encode()).hexdigest()
         novo_usuario = Adm(nome=nome,
@@ -42,10 +42,10 @@ def login_admin(request):
     if request.method == "GET":
         return render(request, 'login.html')
     elif request.method == "POST":
-        email = request.POST.get('email')
+        nome = request.POST.get('nome')
         senha = request.POST.get('senha')
         senha = sha256(senha.encode()).hexdigest()
-        adm = Adm.objects.filter(email=email).filter(senha=senha)
+        adm = Adm.objects.filter(nome=nome).filter(senha=senha)
         if len(adm) == 0:
             messages.add_message(request, constants.ERROR,
                                  'Usuario não existe')

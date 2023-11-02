@@ -18,12 +18,6 @@ def adicionar_filmes(request):
         duracao = request.POST.get("duracao")
         autor = request.POST.get("autor")
         capa = request.FILES.get("capa")
-        valid = (titulo, sinopse, duracao, autor, capa)
-        for v in valid:
-            if len(v.strip) == 0:
-                messages.add_message(
-                    request, constants.ERROR, 'Preencha todos os campos')
-                return redirect(reverse('adicionar_filmes'))
         filmes = cf(titulo=titulo,
                     sinopse=sinopse,
                     duracao=duracao,

@@ -1,36 +1,11 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.http import HttpResponse
-from .models import Cadastro_Filmes as cf
-from django.contrib import messages
-from django.contrib.messages import constants
-
-
-def adicionar_filmes(request):
-    if request.method == "GET":
-        if request.session.get('adm'):
-            return render(request, 'filmes.html')
-        else:
-            return HttpResponse('Faça o login para acessar')
-    elif request.method == "POST":
-        titulo = request.POST.get("titulo")
-        sinopse = request.POST.get("sinopse")
-        duracao = request.POST.get("duracao")
-        autor = request.POST.get("autor")
-        capa = request.FILES.get("capa")
-        filmes = cf(titulo=titulo,
-                    sinopse=sinopse,
-                    duracao=duracao,
-                    autor=autor,
-                    capa=capa
-                    )
-        filmes.save()
-        messages.add_message(
-            request, constants.SUCCESS, 'Filme cadastrado com sucesso')
-        return redirect(reverse('adicionar_filmes'))
+# from .forms import MovieForm
+from .models import FilmRegistration
 
 
 def ver_filmes(request):
-    if request.method == "GET":
-        filmes = cf.objects.all()
-        return render(request, "ver_filmes.html",  {"filmes": filmes})
+    movies = FilmRegistration.objects.all().order_by('-id')
+    # seach = request.GET.get('')
+    # TODO: Criar seach para pesquisa
+    return render(request, 'ver_filmes.html',
+                  {'movies': movies})

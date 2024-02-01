@@ -1,12 +1,22 @@
 from django.db import models
 
 
-class Cadastro_Filmes(models.Model):
-    titulo = models.CharField(max_length=50)
-    sinopse = models.TextField()
-    capa = models.FileField(upload_to='capa')
-    duracao = models.IntegerField()
-    autor = models.CharField(max_length=50)
+class Category(models.Model):
+    category = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.titulo
+        return self.category
+
+
+class FilmRegistration(models.Model):
+    title = models.CharField(max_length=50)
+    category = models.ForeignKey(
+        Category, on_delete=models.PROTECT, related_name="category_movie",
+        blank=True, null=True)
+    synopsis = models.TextField(blank=True, null=True)
+    cover = models.FileField(upload_to='capa')
+    duration = models.IntegerField(blank=True, null=True)
+    author = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.title

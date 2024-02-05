@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ {% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'register_movie/css/styles.css' %}">
+ {% endblock%}
+
+{% block title %}Register Movies{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Register Movies</h2>
+  <form method="POST"> {% csrf_token %}
+
+    <div class="form-group">
+        {{ movie_form.title.errors }} 
+        <label for="title"> Title: </label>
+        {{ movie_form.title }}           
+    </div>
+
+    <div class="form-group">
+      {{ movie_form.category.errors }} 
+      <label for="category"> Category: </label>
+      {{ movie_form.category }}   
+    </div>
+
+    <div class="form-group">
+        {{ movie_form.synopsis.errors }} 
+        <label for="synopsis"> Synopsis: </label>
+        {{ movie_form.synopsis }}  
+    </div>
+
+    <div class="form-group">
+      {{ movie_form.cover.errors }} 
+      <label for="cover"> Cover: </label>
+      {{ movie_form.cover }}  
+    </div>
+
+    <div class="form-group">
+      {{ movie_form.duration.errors }} 
+      <label for="duration"> Duration: </label>
+      {{ movie_form.duration }}  
+    </div>
+
+    <div class="form-group">
+      {{ movie_form.author.errors }} 
+      <label for="author"> Author: </label>
+      {{ movie_form.author }}  
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value='cadastrar'>
+    </div>
+  </form>
+
+
+</div>
+{% endblock %}

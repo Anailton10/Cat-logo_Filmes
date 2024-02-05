@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+  <link rel="stylesheet" href="{% static "detail/css/detail.css" %}">
+{% endblock %}
+
+{% block title %}Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Detail Movie</h1>
+  <div class="grid-container">
+    {% for movie in movies %}
+      <div class="grid-item">
+        {% if movie.cover %}
+          <div class="image">
+            <img src="{{ movie.cover.url }}" class="movie-image">
+          </div>
+        {% endif %}
+        <div class="movie-details">
+          <h3>{{ movie.title }}</h3>
+          <p>{{ movie.synopsis }}</p>
+          <p>Duration: {{ movie.duration }} min</p>
+          <p>Author: {{ movie.author }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+

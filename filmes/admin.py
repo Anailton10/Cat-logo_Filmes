@@ -11,8 +11,8 @@ admin.site.register(FilmRegistration, FilmAdmin)
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('category',)
-    search_fields = ('category',)
+    list_display = ('name',)
+    search_fields = ('name',)
 
 
 admin.site.register(Category, CategoryAdmin)

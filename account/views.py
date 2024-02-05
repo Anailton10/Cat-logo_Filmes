@@ -1,6 +1,7 @@
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 
 def register(request):
@@ -15,10 +16,26 @@ def register(request):
                   {'user': user_form})
 
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
-        ...
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request,
+                            username=username,
+                            password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/filmes/list_movie')
+        else:
+            login_form = AuthenticationForm()
     else:
-        user_form = UserCreationForm()
+        login_form = AuthenticationForm()
     return render(request, 'login.html',
-                  {'user_form': user_form})
+                  {'user_form': login_form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/account/login/')
